@@ -32,11 +32,14 @@ STOPSIGNAL SIGKILL
 ##
 # Install UbiOS packages
 ##
-RUN apt-get install -y ulp-go
+#RUN apt-get install -y ulp-go
+RUN curl -o ulp-go.deb https://fw-download.ubnt.com/data/ulp-go/9fae-ckp-1.1.4-e594760c691642b78a5e665afda00252.deb
+RUN dpkg -i ulp-go.deb 
+
 
 # Patch Version as the newest isnt released yet for some reason
-RUN sed -i 's/Version: 0.1.12-1044/Version: 0.1.18-1101/g' /var/lib/dpkg/status
-RUN sed -i 's/VersionCode: 1044/VersionCode: 1101/g' /var/lib/dpkg/status
+#RUN sed -i 's/Version: 0.1.12-1044/Version: 0.1.18-1101/g' /var/lib/dpkg/status
+#RUN sed -i 's/VersionCode: 1044/VersionCode: 1101/g' /var/lib/dpkg/status
 
 RUN apt-get install -y unifi-core libcap2-bin
 RUN adduser unifi-core sudo
