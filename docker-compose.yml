@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  uckp:
+    build: .
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - db:/var/lib/postgresql/9.6/main
+      - sd:/srv
+      - emmc:/srv-internal
+      - data:/data
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+    network_mode: "host"
+volumes:
+  db:
+  sd:
+  emmc:
+  data:
