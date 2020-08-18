@@ -5,7 +5,7 @@ FROM debian:stretch
 ##
 RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/stretch-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN curl -sL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update && apt-get install -y postgresql-10
 
 # Configure official Ubiquiti APT repository
@@ -36,8 +36,7 @@ STOPSIGNAL SIGKILL
 ##
 #RUN apt-get install -y ulp-go
 RUN apt-get install -y jq libjq1 libonig4 netcat-traditional
-RUN curl -o ulp-go.deb https://fw-download.ubnt.com/data/ulp-go/9fae-ckp-1.1.4-e594760c691642b78a5e665afda00252.deb
-RUN dpkg -i ulp-go.deb 
+RUN curl -sL ulp-go.deb https://fw-download.ubnt.com/data/ulp-go/9fae-ckp-1.1.4-e594760c691642b78a5e665afda00252.deb | dpkg -i - 
 
 
 # Patch Version as the newest isnt released yet for some reason
