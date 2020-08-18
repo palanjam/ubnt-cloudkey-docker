@@ -3,8 +3,10 @@ FROM debian:stretch
 ##
 # Preconfigure docker image for CloudKey Environment
 ##
-
-RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash postgresql-10
+RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/stretch-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update && apt-get install -y postgresql-10
 
 # Configure official Ubiquiti APT repository
 RUN echo "deb https://ubnt.bintray.com/apt stretch main" | tee -a /etc/apt/sources.list
