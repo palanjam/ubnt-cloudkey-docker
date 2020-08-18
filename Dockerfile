@@ -3,10 +3,7 @@ FROM debian:stretch
 ##
 # Preconfigure docker image for CloudKey Environment
 ##
-RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/stretch-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
-RUN curl -sL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt-get update && apt-get install -y postgresql-10
+RUN apt-get update && apt-get install -y gnupg nano ca-certificates curl apt-transport-https bash postgressql
 
 # Configure official Ubiquiti APT repository
 RUN echo "deb https://ubnt.bintray.com/apt stretch main" | tee -a /etc/apt/sources.list
@@ -15,7 +12,6 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 379CE192D401AB61
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get update && apt-get upgrade -y
 ENV UNIFI_CORE_ENABLED=true
-
 
 ##
 # Install required environmental libraries and software
@@ -36,8 +32,7 @@ STOPSIGNAL SIGKILL
 ##
 #RUN apt-get install -y ulp-go
 RUN apt-get install -y jq libjq1 libonig4 netcat-traditional
-RUN curl -sL ulp-go.deb https://fw-download.ubnt.com/data/ulp-go/9fae-ckp-1.1.4-e594760c691642b78a5e665afda00252.deb | dpkg -i - 
-
+RUN curl -sLo ulp-go.deb https://fw-download.ubnt.com/data/ulp-go/9fae-ckp-1.1.4-e594760c691642b78a5e665afda00252.deb && dpkg -i ulp-go.deb && rm ulp-go.deb
 
 # Patch Version as the newest isnt released yet for some reason
 #RUN sed -i 's/Version: 0.1.12-1044/Version: 0.1.18-1101/g' /var/lib/dpkg/status
@@ -58,7 +53,7 @@ RUN apt-get install -y unifi-access
 
 # Patch Version as the newest isnt released yet for some reason
 RUN awk '$0=="Version: 1.0.6"{$0="Version: 1.4.2"};1' /var/lib/dpkg/status  > /var/lib/dpkg/status-tmp && mv /var/lib/dpkg/status-tmp /var/lib/dpkg/status
-RUN apt-get install -y unifi-protect=1.14.8
+RUN apt-get install -y unifi-protect
 RUN systemctl enable unifi-protect
 
 ##
