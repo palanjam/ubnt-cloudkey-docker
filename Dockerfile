@@ -33,6 +33,7 @@ STOPSIGNAL SIGKILL
 # Install UbiOS packages
 ##
 #RUN apt-get install -y ulp-go
+RUN apt-get install -y jq libjq1 libonig4 netcat-traditional
 RUN curl -o ulp-go.deb https://fw-download.ubnt.com/data/ulp-go/9fae-ckp-1.1.4-e594760c691642b78a5e665afda00252.deb
 RUN dpkg -i ulp-go.deb 
 
